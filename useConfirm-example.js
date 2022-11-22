@@ -1,28 +1,27 @@
-const useConfirm = (message = "", callback, rejection) => {
-  if (typeof callback !== "function") {
-    return;
-  }
+const useConfirm = (message = "", onConfirm, onCancle) => {
+  if (onConfirm && typeof onConfirm !== "function") return;
+  if(onCancle && typeof onCancle !== "function") return;
 
   const confirmAction = () => {
     if (confirm(message)) {
-      callback();
+        onConfirm();
     } else {
-      rejection();
+        onCancle();
     }
   };
   return confirmAction;
 };
 
 const App = () => {
-  const deleteWorld = () => console.log("Deleting the world...");
-  const abort = () => console.log("Aborted");
-  const confirmDelete = useConfirm("Are you sure?", deleteWorld, abort);
+    const deleteWorld = () => console.log("Deleting the world...");
+    const abort = () => console.log("Aborted");
+    const confirmDelete = useConfirm("Are you sure?", deleteWorld, abort);
 
-  return (
-    <div className="App">
-      <button onClick={confirmDelete}>delete the world</button>
-    </div>
-  );
+    return (
+        <div className="App">
+            <button onClick={confirmDelete}>delete the world</button>
+        </div>
+    );
 };
 
 export default App;
